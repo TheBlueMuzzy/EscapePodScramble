@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b6550716312ceb4f87948456a7b5e3d, type: 3}
-  m_Name: Token_Resource_Def
+  m_Name: Token_Resource_Medicine_Def
   m_EditorClassIdentifier: 
   type: 0
-  prefab: {fileID: 1444446182252351647, guid: 1519a4a436a626f4ba0dfce50d128bfa, type: 3}
-  count: 24
+  prefab: {fileID: 1444446182252351647, guid: 218df05e3daadc74397a68f1042ec3b3, type: 3}
+  count: 6
   faceDownInDark: 1
