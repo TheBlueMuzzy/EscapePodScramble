@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Quantum_oxoxoo_Def
   m_EditorClassIdentifier: 
   type: 10
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 1cffc301e6228ee45827cafd81dadf29, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: a8ca0698b987f374e81e9557a3980e7d, type: 3}
+  tokenSpawnIndices: 0000000000000000020000000000000004000000000000000000000000000000

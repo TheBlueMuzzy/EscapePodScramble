@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 247779063477082435}
   - component: {fileID: 3832913978620222089}
   m_Layer: 0
-  m_Name: Compartment_Template
+  m_Name: Compartment_Bulkhead_Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   - {fileID: 1526559359027969181}
   - {fileID: 7755315351634116548}
   - {fileID: 1802119185153397730}
+  definition: {fileID: 0}
 --- !u!1 &4903153567357760883
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +377,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6af0b9f2fa31e3c43802ba62a424bf02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

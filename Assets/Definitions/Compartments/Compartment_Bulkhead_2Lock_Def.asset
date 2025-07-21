@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: a2e9675ce417c8749bd5e36091110e67, type: 3}
+  tokenSpawnIndices: 0000000000000000000000000000000000000000000000000000000000000000

@@ -1,5 +1,4 @@
 ﻿// BoardManager.cs
-// Place this in Assets/Scripts/BoardManager.cs (delete prior versions).
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +7,14 @@ public class BoardManager : MonoBehaviour
 {
     [Header("Tile Settings")]
     public GameObject tilePrefab;
+    public float tileSpacingX = 1f;
+    public float tileSpacingY = 1f;
 
     [Header("All Strip Definitions")]
-    [Tooltip("All 31 unique CompartmentDefinition SOs (any order)")]
     public List<CompartmentDefinition> compartmentDefs;
 
-    public int width;    // inferred from first Compartment prefab
-    public int height;   // == compartmentDefs.Count
+    public int width;   // inferred from first prefab
+    public int height;  // == compartmentDefs.Count
 
     private Tile[,] tilesGrid;
     private Color[,] originalColors;
@@ -32,7 +32,7 @@ public class BoardManager : MonoBehaviour
         var firstComp = compartmentDefs[0].prefab.GetComponent<Compartment>();
         width = firstComp.tileSpots.Length;
 
-        // 2) Build randomized 9+bulk+9+bulk+9+bulk+1 layout
+        // 2) Randomize into 9+bulk+9+bulk+9+bulk+1 pattern (same as before)…
         var sb = compartmentDefs.Where(d => d.type == CompartmentType.StartBulkhead).ToList();
         var l2 = compartmentDefs.Where(d => d.type == CompartmentType.LockedBulkhead2).ToList();
         var l3 = compartmentDefs.Where(d => d.type == CompartmentType.LockedBulkhead3).ToList();
@@ -61,17 +61,14 @@ public class BoardManager : MonoBehaviour
         compartmentDefs.AddRange(sec3);
         compartmentDefs.AddRange(eb);
 
-        // 3) Prepare storage & art parent
+        // 3) Prepare arrays & art parent
         tilesGrid = new Tile[width, height];
         originalColors = new Color[width, height];
         artParent = new GameObject("CompartmentArt").transform;
         artParent.parent = transform;
     }
 
-    void Start()
-    {
-        BuildBoard();
-    }
+    void Start() => BuildBoard();
 
     void BuildBoard()
     {
@@ -80,33 +77,27 @@ public class BoardManager : MonoBehaviour
             int defIdx = height - 1 - row;
             var def = compartmentDefs[defIdx];
 
-            // Instantiate strip
+            // Instantiate the strip prefab
             var compGO = Instantiate(
                 def.prefab,
-                new Vector3(0f, -row * 1f, 1f),
+                new Vector3(0f, -row * tileSpacingY, 1f),
                 Quaternion.identity,
                 artParent
             );
-            compGO.name = $"Compartment_{row}_{def.type}";
+            compGO.name = $"Comp_{row}_{def.type}";
 
-            // Swap in the assigned art texture
-            var artRend = compGO.GetComponentInChildren<Renderer>();
-            if (artRend != null && def.artTexture != null)
-            {
-                // This creates an instance of the material so only this compartment changes
-                artRend.material.mainTexture = def.artTexture;
-            }
-
-            var comp = compGO.GetComponent<Compartment>();
-            if (comp == null) continue;
+            // Assign its definition for later HazardManager use
+            var compComp = compGO.GetComponent<Compartment>();
+            if (compComp != null)
+                compComp.definition = def;
 
             // Spawn interactive tiles as children of compGO
             for (int col = 0; col < width; col++)
             {
-                Transform spot = comp.tileSpots[col];
+                Vector3 worldPos = compGO.GetComponent<Compartment>().tileSpots[col].position;
                 var tileGO = Instantiate(
                     tilePrefab,
-                    spot.position,
+                    worldPos,
                     Quaternion.identity,
                     compGO.transform
                 );
@@ -121,8 +112,10 @@ public class BoardManager : MonoBehaviour
                 originalColors[col, row] = rend.material.color;
                 rend.enabled = false;  // hide until preview
 
+                // Hull columns: invisible & unclickable
                 if (col == 0 || col == width - 1)
                 {
+                    rend.enabled = false;
                     var colld = tileGO.GetComponent<Collider>();
                     if (colld) colld.enabled = false;
                 }
@@ -141,16 +134,13 @@ public class BoardManager : MonoBehaviour
     {
         ClearHighlights();
         int[,] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { 1, -1 }, { -1, 1 }, { -1, -1 } };
-
         for (int d = 0; d < dirs.GetLength(0); d++)
         {
             int dx = dirs[d, 0], dy = dirs[d, 1];
             for (int step = 1; step <= range; step++)
             {
-                int c = startCol + dx * step;
-                int r = startRow + dy * step;
+                int c = startCol + dx * step, r = startRow + dy * step;
                 if (c < 1 || c >= width - 1 || r < 0 || r >= height) break;
-
                 var tile = tilesGrid[c, r];
                 var rend = tile.GetComponent<Renderer>();
                 rend.enabled = true;
@@ -159,9 +149,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public Tile GetTileAtPosition(Vector3 pos)
-    {
-        return tilesGrid.Cast<Tile>()
-                        .FirstOrDefault(t => t.transform.position == pos);
-    }
+    public Tile GetTileAtPosition(Vector3 pos) =>
+        tilesGrid.Cast<Tile>().FirstOrDefault(t => t.transform.position == pos);
 }

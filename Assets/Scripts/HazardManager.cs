@@ -1,92 +1,64 @@
 ﻿// HazardManager.cs
-// Place this in Assets/Scripts and remove any other HazardManager definitions.
-// Spawns tokens based on your HazardDefinition ScriptableObjects.
-
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HazardManager : MonoBehaviour
 {
-    [Header("All Hazard Definitions")]
-    public List<HazardDefinition> hazardDefinitions;   // Populate in Inspector
+    [Header("All Token Definitions (type + prefab + count)")]
+    public List<HazardDefinition> hazardDefinitions;
 
-    private BoardManager boardMgr;
-
-    void Awake()
-    {
-        boardMgr = UnityEngine.Object.FindFirstObjectByType<BoardManager>();
-        if (boardMgr == null)
-            Debug.LogError("HazardManager: No BoardManager found in scene!");
-    }
-
-    void Start()
-    {
-        SpawnAllHazards();
-    }
+    void Start() => SpawnAllHazards();
 
     void SpawnAllHazards()
     {
-        // Find every Tile in the scene
-        Tile[] allTiles = UnityEngine.Object.FindObjectsByType<Tile>(
-            FindObjectsSortMode.None
-        );
-
-        foreach (var def in hazardDefinitions)
+        // 1) Gather all allowed spawn spots, per‐compartment
+        var spawnSpots = new List<Transform>();
+        foreach (var comp in Object.FindObjectsByType<Compartment>(FindObjectsSortMode.None))
         {
-            // Shuffle eligible tiles and take 'count' of them
-            var candidates = allTiles
-                .Where(t => IsEligibleFor(def.type, t))
-                .OrderBy(_ => Random.value)
-                .Take(def.count);
-
-            foreach (var tile in candidates)
+            // take the array from the SO; if empty, default to indices 1..(tileSpots.Length-2)
+            var indices = comp.definition.tokenSpawnIndices;
+            if (indices == null || indices.Length == 0)
             {
-                var go = Instantiate(
-                    def.prefab,
-                    tile.transform.position,
-                    Quaternion.identity,
-                    tile.transform
-                );
+                indices = Enumerable
+                    .Range(1, comp.tileSpots.Length - 2)  // e.g. 1..6 for width=8
+                    .ToArray();
+                Debug.Log($"[HazardManager] '{comp.definition.name}' has no tokenSpawnIndices – defaulting to {indices.Length} spots");
+            }
 
-                // Face-down in dark compartments?
-                if (def.faceDownInDark && tile.Compartment == CompartmentType.Dark)
-                    go.transform.rotation = Quaternion.Euler(0, 0, 180f);
+            foreach (int idx in indices)
+            {
+                if (idx >= 0 && idx < comp.tileSpots.Length)
+                    spawnSpots.Add(comp.tileSpots[idx]);
+                else
+                    Debug.LogError($"[HazardManager] Bad index {idx} on {comp.definition.name}");
             }
         }
-    }
 
-    private bool IsEligibleFor(HazardType type, Tile tile)
-    {
-        int c = tile.Col;
-        int r = tile.Row;
-        int w = boardMgr.width;
-        int h = boardMgr.height;
+        // 2) Build & shuffle your token pool
+        var tokenPool = new List<GameObject>();
+        foreach (var def in hazardDefinitions)
+            for (int i = 0; i < def.count; i++)
+                tokenPool.Add(def.prefab);
+        tokenPool = tokenPool.OrderBy(_ => Random.value).ToList();
 
-        // 1) Never on side hulls
-        if (c == 0 || c == w - 1) return false;
+        Debug.Log($"[HazardManager] spawnSpots={spawnSpots.Count}, tokenPool={tokenPool.Count}");
 
-        // 2) Never on any bulkhead rows
-        if (r == 0 || r == h - 1 || r == 10 || r == 20) return false;
-
-        // 3) Per-type rules
-        switch (type)
+        // 3) Deal tokens one‐to‐one
+        int N = Mathf.Min(spawnSpots.Count, tokenPool.Count);
+        for (int i = 0; i < N; i++)
         {
-            case HazardType.Resource:
-            case HazardType.Debris:
-                return true;
+            var spot = spawnSpots[i];
+            var prefab = tokenPool[i];
+            Debug.Log($"[HazardManager] Spawning '{prefab.name}' at spot '{spot.parent.name}/{spot.name}'");
 
-            case HazardType.Unstable:
-                return true;
+            var go = Instantiate(prefab, spot.position, Quaternion.identity, spot);
 
-            case HazardType.Teleportal:
-            case HazardType.Turret:
-            case HazardType.Terminal:
-            case HazardType.Creature:
-                return tile.Compartment != CompartmentType.Dark;
-
-            default:
-                return false;
+            // Face‐down for dark compartments?
+            var hzDef = hazardDefinitions.First(h => h.prefab == prefab);
+            var comp = spot.GetComponentInParent<Compartment>();
+            if (hzDef.faceDownInDark && comp.definition.type == CompartmentType.Dark)
+                go.transform.Rotate(0, 0, 180f);
         }
     }
 }

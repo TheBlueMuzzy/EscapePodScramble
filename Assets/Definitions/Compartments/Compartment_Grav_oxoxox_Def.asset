@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Grav_oxoxox_Def
   m_EditorClassIdentifier: 
   type: 8
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 3e4bfc1f22d04834c8f79a269cb8ee59, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: becac6bb851d2744d869f0f16d601806, type: 3}
+  tokenSpawnIndices: 0000000000000000020000000000000004000000000000000600000000000000

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Shift_Rxoxxox_Def
   m_EditorClassIdentifier: 
   type: 7
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 4f3ecd12b4f8e384fb4054b52c4dc819, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: e35e10eaf917bf042904b1024d546532, type: 3}
+  tokenSpawnIndices: 0000000001000000000000000300000004000000000000000600000000000000

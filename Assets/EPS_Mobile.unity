@@ -321,6 +321,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 5972842964710273373, guid: 68fd0e69a433b6340b8ba7ce501d58f6, type: 3}
+  tileSpacingX: 1
+  tileSpacingY: 1
   compartmentDefs:
   - {fileID: 11400000, guid: b9bd97f2d94ab744b9add54cb0358c6e, type: 2}
   - {fileID: 11400000, guid: 93e906634d313654fb9b74fc2df90c7f, type: 2}

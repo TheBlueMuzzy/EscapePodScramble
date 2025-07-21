@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Safe_ooooxx_Def
   m_EditorClassIdentifier: 
   type: 4
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 43e281855fd4ce04c990c10edfa3eaf0, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: 0f50f1f62d3402a46b82a729e1845c32, type: 3}
+  tokenSpawnIndices: 0000000000000000000000000000000000000000050000000600000000000000

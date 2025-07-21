@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Dark_oxxxxo_Def
   m_EditorClassIdentifier: 
   type: 9
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 16a8bc45ef885a346b90316c833aa39a, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: cf1308312561b6548a683e6bef701556, type: 3}
+  tokenSpawnIndices: 0000000000000000020000000300000004000000050000000000000000000000

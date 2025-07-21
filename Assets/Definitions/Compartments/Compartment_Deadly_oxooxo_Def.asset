@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Deadly_oxooxo_Def
   m_EditorClassIdentifier: 
   type: 5
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 37b8a2bc0fe57bb43a6157dbc890b43d, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: 42be0b12f4ce7354bb84b1db72ad4a30, type: 3}
+  tokenSpawnIndices: 0000000000000000020000000000000000000000050000000000000000000000

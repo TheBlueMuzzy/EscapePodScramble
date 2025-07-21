@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Compartment_Bulkhead_Start_Def
   m_EditorClassIdentifier: 
   type: 0
-  prefab: {fileID: 4612829670402378114, guid: 96ebb49cf68f8704e847769de6bb17f8, type: 3}
-  artTexture: {fileID: 2800000, guid: 49fb627e5ba316146b38c49983cd6b4f, type: 3}
+  prefab: {fileID: 4612829670402378114, guid: cd93086945a09e7448b921d54c48c19e, type: 3}
+  tokenSpawnIndices: 0000000000000000000000000000000000000000000000000000000000000000
