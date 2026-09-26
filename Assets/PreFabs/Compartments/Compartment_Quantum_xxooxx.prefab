@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 247779063477082435}
   - component: {fileID: 3832913978620222089}
   m_Layer: 0
-  m_Name: Compartment_Quantum_xxoxx
+  m_Name: Compartment_Quantum_xxooxx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

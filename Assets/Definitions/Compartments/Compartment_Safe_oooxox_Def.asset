@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   prefab: {fileID: 4612829670402378114, guid: 94857a0450bf35943b8374bdfcabf3a0, type: 3}
-  tokenSpawnIndices: 0000000000000000000000000000000004000000000000000600000000000000
+  tokenSpawnIndices: 0100000003000000
